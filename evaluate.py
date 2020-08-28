@@ -32,7 +32,7 @@ if __name__ == '__main__':
     logging.info('Making predictions for {} dialogues and {} turns'.format(len(dataset[args.split]), len(list(dataset[args.split].iter_turns()))))
     preds = model.run_pred(dataset[args.split], args_save)
     pprint(dataset[args.split].evaluate_preds(preds))
-    # dataset[args.split].record_preds(preds, to_file=os.path.join('exp/glad/default', 'train.pred.json'))
+    # dataset[args.split].record_preds(preds, to_file=os.path.join('exp/glad/default', 'test.pred.json'))
 
 
     if args.fout:

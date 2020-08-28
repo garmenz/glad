@@ -18,26 +18,11 @@ dann = os.path.join(data_dir, 'ann')
 
 splits = ['dev', 'train', 'test']
 
-
-# def download(url, to_file):
-#     r = requests.get(url, stream=True)
-#     with open(to_file, 'wb') as f:
-#         for chunk in r.iter_content(chunk_size=1024):
-#             if chunk:
-#                 f.write(chunk)
-
-
 def missing_files(d, files):
     return not all([os.path.isfile(os.path.join(d, '{}.json'.format(s))) for s in files])
 
 
 if __name__ == '__main__':
-    # if missing_files(draw, splits):
-    #     if not os.path.isdir(draw):
-    #         os.makedirs(draw)
-        # download('https://github.com/nmrksic/neural-belief-tracker/raw/master/data/woz/woz_train_en.json', os.path.join(draw, 'train.json'))
-        # download('https://github.com/nmrksic/neural-belief-tracker/raw/master/data/woz/woz_validate_en.json', os.path.join(draw, 'dev.json'))
-        # download('https://github.com/nmrksic/neural-belief-tracker/raw/master/data/woz/woz_test_en.json', os.path.join(draw, 'test.json'))
 
     if missing_files(dann, files=splits + ['ontology', 'vocab', 'emb']):
         if not os.path.isdir(dann):

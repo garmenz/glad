@@ -261,19 +261,11 @@ class Model(nn.Module):
 
         for s in self.ontology.slots:
             for i, p in enumerate(scores[s]):
-                # triggered = [(s, v, p_v) for v, p_v in zip(self.ontology.values[s], p) if p_v > threshold]
+                # extract slot-value pair that have the prob over threshold and the top one in each slot
                 triggered = [(s, v, p_v) for v, p_v in zip(self.ontology.values[s], p) if p_v >= threshold]
                 if triggered:
                     sort = sorted(triggered, key=lambda tup: tup[-1], reverse=True)
                     predictions[i].add((sort[0][0], sort[0][1]))
-                # if s == 'request':
-                #    # we can have multiple requests predictions
-                #    predictions[i] |= set([(s, v) for s, v, p_v in triggered])
-                # elif triggered:
-                #    # only extract the top inform prediction
-                #    sort = sorted(triggered, key=lambda tup: tup[-1], reverse=True)
-                #    predictions[i].add((sort[0][0], sort[0][1]))
-
         return predictions
 
     def run_pred(self, dev, args):
