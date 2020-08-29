@@ -272,6 +272,8 @@ class Model(nn.Module):
         self.eval()
         predictions = []
         for batch in dev.batch(batch_size=args.batch_size):
+            print("batch size: ")
+            print(len(batch))
             loss, scores = self.forward(batch)
             predictions += self.extract_predictions(scores)
         return predictions

@@ -30,6 +30,8 @@ class Turn:
         self.system_transcript = system_transcript
         self.num = num or {}
 
+    # def to_dict(self):
+    #     return {'turn_id': self.id, 'transcript': self.transcript, 'turn_label': self.turn_label, 'belief_state': self.belief_state, 'system_acts': self.system_acts, 'system_transcript': self.system_transcript, 'num': self.num}
     def to_dict(self):
         return {'transcript': self.transcript, 'turn_label': self.turn_label, 'system_acts': self.system_acts, 'system_transcript': self.system_transcript, 'num': self.num}
 
@@ -39,6 +41,7 @@ class Turn:
 
     @classmethod
     def annotate_raw(cls, raw):
+
         return cls(
             transcript=annotate(raw['patient_text']),
             system_acts=raw['system_acts'],
@@ -102,6 +105,7 @@ class Dataset:
         for t in self.iter_turns():
             t.numericalize_(vocab)
 
+
     # used by WOZ dataset
     # def extract_ontology(self):
     #     slots = set()
@@ -135,6 +139,7 @@ class Dataset:
                     gold_state[s] = v
                 joint_goal.append(pred_state == gold_state)
         return {'joint_goal': np.mean(joint_goal), 'turn_goal': np.mean(turn_goal)}
+
 
 
     def record_preds(self, preds, to_file):

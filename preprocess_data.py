@@ -23,7 +23,6 @@ def missing_files(d, files):
 
 
 if __name__ == '__main__':
-
     if missing_files(dann, files=splits + ['ontology', 'vocab', 'emb']):
         if not os.path.isdir(dann):
             os.makedirs(dann)
