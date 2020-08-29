@@ -23,14 +23,6 @@ def annotate(sent):
 
 class Turn:
 
-    # def __init__(self, turn_id, transcript, turn_label, belief_state, system_acts, system_transcript, num=None):
-    #     self.id = turn_id
-    #     self.transcript = transcript
-    #     self.turn_label = turn_label
-    #     self.belief_state = belief_state
-    #     self.system_acts = system_acts
-    #     self.system_transcript = system_transcript
-    #     self.num = num or {}
     def __init__(self, transcript, turn_label, system_acts, system_transcript, num=None):
         self.transcript = transcript
         self.turn_label = turn_label
@@ -49,24 +41,11 @@ class Turn:
 
     @classmethod
     def annotate_raw(cls, raw):
-        # system_acts = []
-        # for a in raw['system_acts']:
-        #     if isinstance(a, list):
-        #         s, v = a
-        #         system_acts.append(['inform'] + s.split() + ['='] + v.split())
-        #     else:
-        #         system_acts.append(['request'] + a.split())
-        # NOTE: fix inconsistencies in data label
-        # fix = {'centre': 'center', 'areas': 'area', 'phone number': 'number'}
+
         return cls(
-            # turn_id=raw['turn_idx'],
-            # transcript=annotate(raw['transcript']),
             transcript=annotate(raw['patient_text']),
             system_acts=raw['system_acts'],
-            # turn_label=[[fix.get(s.strip(), s.strip()), fix.get(v.strip(), v.strip())] for s, v in raw['turn_label']],
             turn_label=raw['turn_label'],
-            # belief_state=raw['belief_state'],
-            # system_transcript=raw['system_transcript'],
             system_transcript=raw['doctor_text'],
         )
 
@@ -85,17 +64,14 @@ class Dialogue:
         return len(self.turns)
 
     def to_dict(self):
-        # return {'dialogue_id': self.id, 'turns': [t.to_dict() for t in self.turns]}
         return {'dialogue_index': self.id, 'turns': [t.to_dict() for t in self.turns]}
 
     @classmethod
     def from_dict(cls, d):
-        # return cls(d['dialogue_id'], [Turn.from_dict(t) for t in d['turns']])
         return cls(d['dialogue_index'], [Turn.from_dict(t) for t in d['turns']])
 
     @classmethod
     def annotate_raw(cls, raw):
-        # return cls(raw['dialogue_idx'], [Turn.annotate_raw(t) for t in raw['dialogue']])
         return cls(raw['dialogue_index'], [Turn.annotate_raw(t) for t in raw['turns']])
 
 
@@ -129,6 +105,8 @@ class Dataset:
         for t in self.iter_turns():
             t.numericalize_(vocab)
 
+
+    # used by WOZ dataset
     # def extract_ontology(self):
     #     slots = set()
     #     values = defaultdict(set)
@@ -145,64 +123,24 @@ class Dataset:
         for i in tqdm(range(0, len(turns), batch_size)):
             yield turns[i:i+batch_size]
 
-    # def evaluate_preds(self, preds):
-    #     request = []
-    #     inform = []
-    #     joint_goal = []
-    #     fix = {'centre': 'center', 'areas': 'area', 'phone number': 'number'}
-    #     i = 0
-    #     for d in self.dialogues:
-    #         pred_state = {}
-    #         for t in d.turns:
-    #             gold_request = set([(s, v) for s, v in t.turn_label if s == 'request'])
-    #             gold_inform = set([(s, v) for s, v in t.turn_label if s != 'request'])
-    #             pred_request = set([(s, v) for s, v in preds[i] if s == 'request'])
-    #             pred_inform = set([(s, v) for s, v in preds[i] if s != 'request'])
-    #             request.append(gold_request == pred_request)
-    #             inform.append(gold_inform == pred_inform)
-    #
-    #             gold_recovered = set()
-    #             pred_recovered = set()
-    #             for s, v in pred_inform:
-    #                 pred_state[s] = v
-    #             for b in t.belief_state:
-    #                 for s, v in b['slots']:
-    #                     if b['act'] != 'request':
-    #                         gold_recovered.add((b['act'], fix.get(s.strip(), s.strip()), fix.get(v.strip(), v.strip())))
-    #             for s, v in pred_state.items():
-    #                 pred_recovered.add(('inform', s, v))
-    #             joint_goal.append(gold_recovered == pred_recovered)
-    #             i += 1
-    #     return {'turn_inform': np.mean(inform), 'turn_request': np.mean(request), 'joint_goal': np.mean(joint_goal)}
-
     def evaluate_preds(self, preds):
-        ref_dialogs = self.dialogues
-        dialog_preds = preds
-
-        print("here: ")
-        print(len(ref_dialogs))
-        print(len(dialog_preds))
-        assert len(ref_dialogs) == len(dialog_preds)
-
         joint_goal = []
-        for ref_dialog, turn_preds in zip(ref_dialogs, dialog_preds):
-            ref_turns = ref_dialog.turns
-            assert len(ref_turns) == len(turn_preds)
+        turn_goal = []
+        i = 0
+        for d in self.dialogues:
+            pred_state, gold_state = {}, {}
+            for t in d.turns:
+                gold_inform = set([(s, v) for s, v in t.turn_label])
+                pred_inform = set([(s, v) for s, v in preds[i]])
+                turn_goal.append(gold_inform == pred_inform)
+                for s, v in pred_inform:
+                    pred_state[s] = v
+                for s, v in gold_inform:
+                    gold_state[s] = v
+                joint_goal.append(pred_state == gold_state)
+        return {'joint_goal': np.mean(joint_goal), 'turn_goal': np.mean(turn_goal)}
 
-            gold_sv, pred_sv = [], []
-            for ref_turn, pred in zip(ref_turns, turn_preds):
-                gold_sv.append(set([(s, v) for s, v in ref_turn.turn_label]))
-                pred_sv.append(set([(s, v) for s, v in pred]))
 
-            # print('GOLD:', gold_sv)
-            # print('PRED:', pred_sv)
-            joint_goal.append(gold_sv == pred_sv)
-
-
-        return EvalResult(
-            turn_inform=0.,
-            turn_request=0.,
-            joint_goal=np.mean(joint_goal))
 
     def record_preds(self, preds, to_file):
         data = self.to_dict()

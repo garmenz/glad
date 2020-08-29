@@ -1,0 +1,169 @@
+{
+    "slots": [
+        "fever",
+        "cough",
+        "phlegm",
+        "tiredness",
+        "breath_difficulty",
+        "muscle_aches",
+        "chills",
+        "sore_throat",
+        "runny_nose",
+        "headache",
+        "chest_pain",
+        "nausea",
+        "vomiting",
+        "diarrhea",
+        "unwell_duration",
+        "age",
+        "smoking",
+        "heart_failure",
+        "type_1_diabetes",
+        "asthma",
+        "chronic_lung_diseases",
+        "high_blood_pressure",
+        "recent_travel",
+        "contact_with_infestor",
+        "mass_gathering"
+    ],
+    "system_acts": [
+        "request_infomation",
+        "dontworry",
+        "need_lab_test",
+        "contact_doctor",
+        "concrete_advice"
+    ],
+    "values": {
+        "fever": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "cough": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "phlegm": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "tiredness": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "breath_difficulty": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "muscle_aches": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "chills": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "sore_throat": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "runny_nose": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "headache": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "chest_pain": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "nausea": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "vomiting": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "diarrhea": [
+            "no",
+            "yes",
+            "mild",
+            "severe"
+        ],
+        "unwell_duration": [
+            "no",
+            "in_a_week",
+            "in_two_weeks",
+            "longer_than_2_weeks"
+        ],
+        "age": [
+            "children",
+            "adult",
+            "old"
+        ],
+        "smoking": [
+            "no",
+            "yes"
+        ],
+        "heart_failure": [
+            "no",
+            "yes"
+        ],
+        "type_1_diabetes": [
+            "no",
+            "yes"
+        ],
+        "asthma": [
+            "no",
+            "yes"
+        ],
+        "chronic_lung_diseases": [
+            "no",
+            "yes"
+        ],
+        "high_blood_pressure": [
+            "no",
+            "yes"
+        ],
+        "recent_travel": [
+            "no",
+            "yes"
+        ],
+        "contact_with_infestor": [
+            "no",
+            "yes"
+        ],
+        "mass_gathering": [
+            "no",
+            "yes"
+        ]
+    }
+}

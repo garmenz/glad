@@ -6,7 +6,7 @@ from importlib import import_module
 from vocab import Vocab
 from dataset import Dataset, Ontology
 from preprocess_data import dann
-
+from pprint import pprint
 
 def load_dataset(splits=('train', 'dev', 'test')):
     with open(os.path.join(dann, 'ontology.json')) as f:
@@ -31,6 +31,7 @@ def get_models():
 
 def load_model(model, *args, **kwargs):
     Model = import_module('models.{}'.format(model)).Model
+    #print(pprint (vars(Model)))
     model = Model(*args, **kwargs)
     logging.info('loaded model {}'.format(Model))
     return model
