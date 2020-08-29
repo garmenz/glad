@@ -29,7 +29,7 @@ If you do not want to build the Docker image, then run the following (you still 
 pip install -r requirements.txt
 ```
 # (Optional) Generate New Split Covid Data
-If you want to generate new random split of covid data, you could go through Generate_New_Split.ipynb
+If you want to generate new random split of covid data, you could go through `Generate_New_Split.ipynb`
 
 # Annotate data
 
@@ -95,7 +95,7 @@ If you do not want to build the Docker image, then run
 python evaluate.py --gpu 0 --split test exp/glad/default
 ```
 # (Optional) Look into Detail of the Result
-If you want to know the performance of each slot's prediction, you can go over Analyze_Acc_for_Each_Slot.ipynb
+If you want to know the performance of each slot's prediction, you can go over `Analyze_Acc_for_Each_Slot.ipynb`
 
 
 # Contribution
