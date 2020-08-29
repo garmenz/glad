@@ -28,8 +28,10 @@ If you do not want to build the Docker image, then run the following (you still 
 ```
 pip install -r requirements.txt
 ```
+# (Optional) Generate New Split Covid Data
+If you want to generate new random split of covid data, you could go through Generate_New_Split.ipynb
 
-# Download and annotate data
+# Annotate data
 
 This project uses Stanford CoreNLP to annotate the dataset.
 In particular, we use the [Stanford NLP Stanza python interface](https://github.com/stanfordnlp/stanza).
@@ -46,8 +48,8 @@ Subsequent runs will be much faster.
 docker exec glad python preprocess_data.py
 ```
 
-The raw data will be stored in `data/[name_of_dataset](woz/covid)/raw` of the container.
-The annotation results will be stored in `data/woz/ann` of the container.
+The raw data is stored in `data/covid/raw` of the container.
+The annotation results will be stored in `data/covid/ann` of the container.
 
 If you do not want to build the Docker image, then run
 
