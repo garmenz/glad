@@ -94,6 +94,8 @@ If you do not want to build the Docker image, then run
 ```
 python evaluate.py --gpu 0 --split test exp/glad/default
 ```
+# (Optional) Look into Detail of the Result
+If you want to know the performance of each slot's prediction, you can go over Analyze_Acc_for_Each_Slot.ipynb
 
 
 # Contribution
